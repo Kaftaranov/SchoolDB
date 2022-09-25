@@ -20,7 +20,7 @@ public class FacultyService {
     public Object add(Faculty faculty){
       return facultyRepository.save(faculty);
     }
-    public Optional get(long id){
+    public Faculty get(long id){
         return facultyRepository.findById(id);
     }
     public List<Faculty> filterByColor(String color) {
@@ -30,7 +30,7 @@ public class FacultyService {
                 .collect(Collectors.toList());
     }
     public Faculty update(Faculty faculty){
-        if(facultyRepository.findById()){
+        if(facultyRepository.findById(faculty.getId()) !=null){
             facultyRepository.save(faculty);
             return faculty;
         }

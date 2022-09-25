@@ -16,9 +16,9 @@ public class StudentService {
     }
 
     public Student add(Student student) {
-        return (Student) studentsRepository.save(student);
+        return studentsRepository.save(student);
     }
-    public Optional findById(long id) {
+    public Student findById(long id) {
         return studentsRepository.findById(id);
     }
     public List<Student> filterByAge(int age) {
@@ -28,7 +28,7 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
     public Student update(Student student) {
-        if(studentsRepository.findById()){
+        if(studentsRepository.findById(student.getId()) != null){
             studentsRepository.save(student);
             return  student;
         }

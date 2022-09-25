@@ -17,8 +17,8 @@ public class FacultyController {
     }
     @GetMapping("{id}")
     public ResponseEntity<Faculty> get (@PathVariable long id){
-        Optional faculty = facultyService.get(id);
-        if (faculty.isEmpty()) {
+        Faculty faculty = facultyService.get(id);
+        if (faculty == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
