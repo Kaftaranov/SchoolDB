@@ -11,9 +11,7 @@ public class Faculty {
     private String name;
     private String color;
 
-    public Faculty() {
-
-    }
+    public Faculty() {super();}
 
     public long getId() {
         return id;
@@ -26,10 +24,9 @@ public class Faculty {
     public String getName() {
         return name;
     }
-
-    public String getColor() {
-        return color;
-    }
+    public void setName(String name){this.name = name;}
+    public String getColor() {return color;}
+    public void setColor(String color) {this.color = color;}
 
     @Override
     public String toString() {

@@ -6,7 +6,6 @@ import ru.hogwarts.school.Models.Faculty;
 import ru.hogwarts.school.Service.FacultyService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/faculty")
@@ -16,12 +15,12 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> get (@PathVariable long id){
-        Faculty faculty = facultyService.get(id);
+    public ResponseEntity<Faculty> getFaculty (@PathVariable long id){
+        Faculty faculty = facultyService.findById(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(faculty);
     }
 
     @GetMapping("/color")
@@ -32,24 +31,29 @@ public class FacultyController {
         }
         return ResponseEntity.ok(colorCollection);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Faculty>> getAllFaculties(){
+        return ResponseEntity.ok(facultyService.getAll());
+    }
 
-    @PostMapping
+    @PostMapping("/add")
     public Object add(@RequestBody Faculty faculty){
         return  facultyService.add(faculty);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Faculty> update(Faculty faculty){
+    public ResponseEntity<Faculty> update(@RequestBody Faculty faculty){
         Faculty updatedfaculty = facultyService.update(faculty);
         if (updatedfaculty == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updatedfaculty);
     }
 
-    @DeleteMapping ("/remove")
-    public void remove(@RequestParam("Id") long id){
+    @DeleteMapping ("{id}")
+    public ResponseEntity remove(@PathVariable long id){
         facultyService.remove(id);
+        return ResponseEntity.ok().build();
     }
 
 }

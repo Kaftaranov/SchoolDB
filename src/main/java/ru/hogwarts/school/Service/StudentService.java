@@ -22,20 +22,18 @@ public class StudentService {
         return studentsRepository.findById(id);
     }
     public List<Student> filterByAge(int age) {
-        List<Student> filteredByAge = new ArrayList<>(studentsRepository.filterByAge(age)) ;
+        List<Student> filteredByAge = new ArrayList<>(studentsRepository.findByAge(age)) ;
         return filteredByAge.stream()
                 .filter(student ->student.getAge()==age)
                 .collect(Collectors.toList());
     }
     public Student update(Student student) {
-        if(studentsRepository.findById(student.getId()) != null){
-            studentsRepository.save(student);
-            return  student;
-        }
-        return null;
+        return studentsRepository.save(student);
     }
-
     public void remove(long id) {
         studentsRepository.deleteById(id);
+    }
+    public List<Student>getAll(){
+        return studentsRepository.findAll();
     }
 }

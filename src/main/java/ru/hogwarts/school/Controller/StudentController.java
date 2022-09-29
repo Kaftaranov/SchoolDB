@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.Models.Student;
 import ru.hogwarts.school.Service.StudentService;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/student")
@@ -33,8 +33,12 @@ public class StudentController {
         }
         return ResponseEntity.ok(ageCollection);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Student>> getAllStudents(){
+        return ResponseEntity.ok(studentService.getAll());
+    }
 
-    @PostMapping
+    @PostMapping("/add")
     public Student add(@RequestBody Student student){
         return  studentService.add(student);
     }
@@ -46,8 +50,9 @@ public class StudentController {
         }
         return ResponseEntity.ok(updatedstudent);
     }
-    @DeleteMapping ("/remove")
-    public void remove(@RequestParam("Id") long id){
+    @DeleteMapping ("{id}")
+    public ResponseEntity remove(@PathVariable long id){
         studentService.remove(id);
+        return ResponseEntity.ok().build();
     }
 }

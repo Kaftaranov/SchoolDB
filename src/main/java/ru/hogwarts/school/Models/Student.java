@@ -8,22 +8,17 @@ public class Student {
     @Id
     @GeneratedValue
     private long id;
-
     private String name;
     private int age;
-
     public Student() {
         super();
     }
-
     public long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public int getAge() {
         return age;
     }
@@ -36,7 +31,6 @@ public class Student {
                 ", age=" + age +
                 '}';
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
