@@ -3,10 +3,8 @@ package ru.hogwarts.school.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.Models.Faculty;
-import ru.hogwarts.school.Models.Student;
 import ru.hogwarts.school.Service.FacultyService;
 
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -17,12 +15,12 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> get (@PathVariable long id){
-        Faculty faculty = facultyService.get(id);
+    public ResponseEntity<Faculty> getFaculty (@PathVariable long id){
+        Faculty faculty = facultyService.findById(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(faculty);
     }
 
     @GetMapping("/color")
@@ -33,27 +31,29 @@ public class FacultyController {
         }
         return ResponseEntity.ok(colorCollection);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Faculty>> getAllFaculties(){
+        return ResponseEntity.ok(facultyService.getAll());
+    }
 
-    @PostMapping
-    public Faculty add(@RequestBody Faculty faculty){
+    @PostMapping("/add")
+    public Object add(@RequestBody Faculty faculty){
         return  facultyService.add(faculty);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Faculty> update(Faculty faculty){
+    public ResponseEntity<Faculty> update(@RequestBody Faculty faculty){
         Faculty updatedfaculty = facultyService.update(faculty);
         if (updatedfaculty == null){
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(updatedfaculty);
+    }
+
+    @DeleteMapping ("{id}")
+    public ResponseEntity remove(@PathVariable long id){
+        facultyService.remove(id);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping ("/remove")
-    public Faculty remove(@RequestParam("Id") long id){
-        return facultyService.remove(id);
-    }
-    //@GetMapping("/findbycolor")
-    //public String findByColor(String color){
-    //    return facultyService.findByColor(color);
-    //}
 }
